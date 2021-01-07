@@ -44,7 +44,7 @@ public class CustomHook extends EntityFishingHook {
         }
     }
 
-    private boolean inFishingRodOnHand(EntityHuman human){
+    private boolean isFishingRodOnHand(EntityHuman human){
         ItemStack itemstack = human.getItemInMainHand();
         ItemStack itemstack1 = human.getItemInOffHand();
         boolean flag = itemstack.getItem() == Items.FISHING_ROD;
@@ -70,7 +70,7 @@ public class CustomHook extends EntityFishingHook {
         EntityHuman entityhuman = this.getOwner();
         if (entityhuman == null) {
             this.die();
-        } else if (this.world.isClientSide || !this.inFishingRodOnHand(entityhuman)) {
+        } else if (this.world.isClientSide || !this.isFishingRodOnHand(entityhuman)) {
             BlockPosition blockposition = this.getChunkCoordinates();
             Fluid fluid = this.world.getFluid(blockposition);
             Object tempAm = null;
