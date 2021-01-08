@@ -10,6 +10,7 @@ non-target commands are commands that don't require targets
 target commands are commands that require targets
 
 Non-target commands:
+
 help: Displays this message
 
 target [playername]: Sets targets to visible entities or the player, player will be added to existing target list
