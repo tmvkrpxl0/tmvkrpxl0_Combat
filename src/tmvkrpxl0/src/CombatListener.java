@@ -365,7 +365,7 @@ public class CombatListener implements Listener {
             if (config.isFishingRodThrown) {
                 Set<Entity> temp = new HashSet<>();
                 for(CustomHook customHook : playerHooks.get(player)){
-                    net.minecraft.server.v1_16_R3.Entity nmsHooked = customHook.k();
+                    net.minecraft.server.v1_16_R3.Entity nmsHooked = customHook.getHooked();
                     if(nmsHooked!=null){
                         Entity hooked = nmsHooked.getBukkitEntity();
                         if(!temp.contains(hooked)){
@@ -399,8 +399,8 @@ public class CombatListener implements Listener {
                 CraftFishHook hook = (CraftFishHook) customHook.getBukkitEntity();
                 if(customHook.pullable) {
                     if(player.isSneaking()){
-                        if(customHook.k()!=null){
-                            Entity hooked = customHook.k().getBukkitEntity();
+                        if(customHook.getHooked()!=null){
+                            Entity hooked = customHook.getHooked().getBukkitEntity();
                             Vector v = player.getLocation().toVector().subtract(hooked.getLocation().toVector()).multiply(0.2);
                             hooked.setVelocity(v);
                         }else{
@@ -450,6 +450,12 @@ public class CombatListener implements Listener {
                 }
                 if(event.getHitEntity() instanceof LivingEntity){
                     LivingEntity hitEntity = (LivingEntity) event.getHitEntity();
+                    if(hitEntity == player){
+                        player.setNoDamageTicks(2);
+                        player.getInventory().addItem(new ItemStack(Material.ARROW, 1));
+                        projectile.remove();
+                        return;
+                    }
                     if(zeroNoDamageTickArrows.contains(event.getEntity())){
                         if(event.getHitEntity() instanceof LivingEntity){
                             if(hitEntity.getNoDamageTicks()!=0){

@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -18,19 +17,22 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
-import javax.security.auth.login.Configuration;
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class tmvkrpxl0Combat extends JavaPlugin{
     protected static ConsoleCommandSender sender;
     protected final Vector ZERO = new Vector(0,0,0);
     protected final String GREEN = "[" + ChatColor.GREEN + "tCombat" + ChatColor.RESET + ']';
-    protected final String RED = "[" + ChatColor.RED + "tCombat" + ChatColor.RESET + ']';;
+    protected final String RED = "[" + ChatColor.RED + "tCombat" + ChatColor.RESET + ']';
     protected final Map<UUID, PlayerConfig> playerConfigs = new HashMap<>();
     private CombatListener listener;
     PluginDescriptionFile pdf = getDescription();
+
     @Override
     public void onEnable() {
         CombatUtil.main = this;
@@ -44,7 +46,7 @@ public class tmvkrpxl0Combat extends JavaPlugin{
         getCommand("tCombat").setExecutor(new CombatCommands(this));
         listener = new CombatListener(this);
         Bukkit.getPluginManager().registerEvents(listener, this);
-        for(Player player : Bukkit.getOnlinePlayers()){ ;
+        for(Player player : Bukkit.getOnlinePlayers()){
             playerConfigs.put(player.getUniqueId(), new PlayerConfig());
         }
         ConfigurationSerialization.registerClass(PlayerConfig.class, "PlayerConfig");
